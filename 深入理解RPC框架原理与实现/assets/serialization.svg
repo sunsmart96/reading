@@ -1,0 +1,77 @@
+<svg width="900" height="400" viewBox="0 0 900 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">序列化与反序列化示意图</title>
+  <desc id="desc">展示程序对象通过序列化转换为字节流或文本数据，再通过反序列化还原为程序对象的过程。</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2f5597"/>
+    </marker>
+    <style>
+      .bg        { fill: #f7f9fc; }
+      .title     { font: 700 26px "Microsoft YaHei", "PingFang SC", sans-serif; fill: #1f2937; }
+      .row-label { font: 700 15px "Microsoft YaHei", "PingFang SC", sans-serif; fill: #6b7280; }
+      .label     { font: 700 19px "Microsoft YaHei", "PingFang SC", sans-serif; fill: #1f2937; }
+      .small     { font: 14px "Microsoft YaHei", "PingFang SC", sans-serif; fill: #4b5563; }
+      .mono      { font: 600 13px Consolas, "Courier New", monospace; fill: #374151; }
+      .note      { font: 14px "Microsoft YaHei", "PingFang SC", sans-serif; fill: #374151; }
+      .arrow-lbl { font: 700 16px "Microsoft YaHei", "PingFang SC", sans-serif; fill: #2f5597; }
+      .box-obj   { fill: #e8f2ff; stroke: #2f80ed; stroke-width: 2; }
+      .box-data  { fill: #fff7e6; stroke: #d99000; stroke-width: 2; }
+      .divider   { stroke: #e5e7eb; stroke-width: 1.5; stroke-dasharray: 6 4; }
+      .line      { stroke: #2f5597; stroke-width: 2.5; fill: none; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect class="bg" x="0" y="0" width="900" height="400" rx="16"/>
+
+  <!-- Title -->
+  <text class="title" x="450" y="46" text-anchor="middle">序列化与反序列化</text>
+
+  <!-- ── Row 1: Serialization ── -->
+  <text class="row-label" x="450" y="78" text-anchor="middle">▶ 序列化（Serialization）</text>
+
+  <!-- Left box: 程序对象 (sender) -->
+  <rect class="box-obj" x="55" y="88" width="220" height="115" rx="12"/>
+  <text class="label" x="165" y="118" text-anchor="middle">程序对象</text>
+  <text class="mono"  x="165" y="143" text-anchor="middle">{ id: 1,</text>
+  <text class="mono"  x="165" y="160" text-anchor="middle">  name: "Alice" }</text>
+  <text class="small" x="165" y="191" text-anchor="middle">内存中的结构化数据</text>
+
+  <!-- Right box: 字节流/文本 -->
+  <rect class="box-data" x="625" y="88" width="220" height="115" rx="12"/>
+  <text class="label" x="735" y="118" text-anchor="middle">字节流 / 文本</text>
+  <text class="mono"  x="735" y="143" text-anchor="middle">{"id":1,</text>
+  <text class="mono"  x="735" y="160" text-anchor="middle"> "name":"Alice"}</text>
+  <text class="small" x="735" y="191" text-anchor="middle">可传输 / 存储的数据</text>
+
+  <!-- Arrow: serialize → -->
+  <path class="line" d="M275 145 H625"/>
+  <text class="arrow-lbl" x="450" y="137" text-anchor="middle">序列化</text>
+
+  <!-- Divider -->
+  <line class="divider" x1="40" y1="218" x2="860" y2="218"/>
+
+  <!-- ── Row 2: Deserialization ── -->
+  <text class="row-label" x="450" y="238" text-anchor="middle">◀ 反序列化（Deserialization）</text>
+
+  <!-- Left box: 字节流/文本 -->
+  <rect class="box-data" x="55" y="248" width="220" height="115" rx="12"/>
+  <text class="label" x="165" y="278" text-anchor="middle">字节流 / 文本</text>
+  <text class="mono"  x="165" y="303" text-anchor="middle">{"id":1,</text>
+  <text class="mono"  x="165" y="320" text-anchor="middle"> "name":"Alice"}</text>
+  <text class="small" x="165" y="351" text-anchor="middle">收到的数据</text>
+
+  <!-- Right box: 程序对象 (receiver) -->
+  <rect class="box-obj" x="625" y="248" width="220" height="115" rx="12"/>
+  <text class="label" x="735" y="278" text-anchor="middle">程序对象</text>
+  <text class="mono"  x="735" y="303" text-anchor="middle">{ id: 1,</text>
+  <text class="mono"  x="735" y="320" text-anchor="middle">  name: "Alice" }</text>
+  <text class="small" x="735" y="351" text-anchor="middle">还原后的结构化数据</text>
+
+  <!-- Arrow: deserialize → -->
+  <path class="line" d="M275 305 H625"/>
+  <text class="arrow-lbl" x="450" y="297" text-anchor="middle">反序列化</text>
+
+  <!-- Bottom note -->
+  <text class="note" x="450" y="383" text-anchor="middle">常见格式：JSON / XML / Protocol Buffers / Thrift Binary / Hessian</text>
+</svg>
