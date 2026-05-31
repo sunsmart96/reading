@@ -1,0 +1,184 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1040" viewBox="0 0 1400 1040" role="img" aria-labelledby="title desc">
+  <title id="title">Dubbo2 协议完整结构图</title>
+  <desc id="desc">完整展示 Dubbo2 协议帧：固定 16 字节 Header、Flag 位定义、响应状态码，以及请求包和响应包的 Variable Part 字段顺序。</desc>
+  <defs>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0f172a" flood-opacity="0.12"/>
+    </filter>
+    <style>
+      .title { font: 700 28px "Microsoft YaHei", "PingFang SC", Arial, sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 16px "Microsoft YaHei", "PingFang SC", Arial, sans-serif; fill: #475569; }
+      .section { font: 700 19px "Microsoft YaHei", "PingFang SC", Arial, sans-serif; fill: #0f172a; }
+      .label { font: 700 15px "Microsoft YaHei", "PingFang SC", Arial, sans-serif; fill: #0f172a; }
+      .text { font: 400 14px "Microsoft YaHei", "PingFang SC", Arial, sans-serif; fill: #1e293b; }
+      .small { font: 400 12px "Microsoft YaHei", "PingFang SC", Arial, sans-serif; fill: #64748b; }
+      .mono { font: 600 12px Consolas, "Microsoft YaHei", monospace; fill: #334155; }
+      .panel { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 1.5; rx: 16; }
+      .card { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.3; rx: 12; filter: url(#shadow); }
+      .field { stroke: #ffffff; stroke-width: 2; rx: 8; }
+      .magic { fill: #dbeafe; }
+      .flag { fill: #dcfce7; }
+      .status { fill: #fef3c7; }
+      .request { fill: #ede9fe; }
+      .length { fill: #ffe4e6; }
+      .body { fill: #e0f2fe; }
+      .bytebox { fill: #ffffff; stroke: #94a3b8; stroke-width: 1; rx: 6; }
+      .requestBody { fill: #ecfeff; stroke: #67e8f9; stroke-width: 1.3; rx: 8; }
+      .responseBody { fill: #f0fdf4; stroke: #86efac; stroke-width: 1.3; rx: 8; }
+      .note { fill: #fff7ed; stroke: #fdba74; stroke-width: 1.3; rx: 10; }
+      .line { stroke: #94a3b8; stroke-width: 1.2; }
+    </style>
+  </defs>
+
+  <rect width="1400" height="1040" fill="#ffffff"/>
+  <text x="700" y="42" text-anchor="middle" class="title">Dubbo2 协议完整结构</text>
+  <text x="700" y="70" text-anchor="middle" class="subtitle">TCP 传输上的二进制协议：固定 16 字节 Header + 由 Data Length 指定的 Variable Part</text>
+
+  <rect x="36" y="100" width="1328" height="900" class="panel"/>
+
+  <text x="70" y="140" class="section">1. 协议帧总览</text>
+  <text x="70" y="165" class="small">Header 字节偏移：0-15 固定长度；Body 从 byte 16 开始，长度为 N。</text>
+
+  <g transform="translate(70 198)">
+    <rect x="0" y="0" width="150" height="96" class="field magic"/>
+    <rect x="150" y="0" width="92" height="96" class="field flag"/>
+    <rect x="242" y="0" width="92" height="96" class="field status"/>
+    <rect x="334" y="0" width="420" height="96" class="field request"/>
+    <rect x="754" y="0" width="210" height="96" class="field length"/>
+    <rect x="964" y="0" width="260" height="96" class="field body"/>
+
+    <text x="75" y="30" text-anchor="middle" class="label">Magic</text>
+    <text x="75" y="54" text-anchor="middle" class="text">协议魔数</text>
+    <text x="75" y="76" text-anchor="middle" class="mono">0xdabb / 16 bit</text>
+
+    <text x="196" y="30" text-anchor="middle" class="label">Flag</text>
+    <text x="196" y="54" text-anchor="middle" class="text">消息标志</text>
+    <text x="196" y="76" text-anchor="middle" class="mono">8 bit</text>
+
+    <text x="288" y="30" text-anchor="middle" class="label">Status</text>
+    <text x="288" y="54" text-anchor="middle" class="text">响应状态</text>
+    <text x="288" y="76" text-anchor="middle" class="mono">8 bit</text>
+
+    <text x="544" y="30" text-anchor="middle" class="label">Request ID</text>
+    <text x="544" y="54" text-anchor="middle" class="text">请求唯一编号</text>
+    <text x="544" y="76" text-anchor="middle" class="mono">64 bit / long</text>
+
+    <text x="859" y="30" text-anchor="middle" class="label">Data Length</text>
+    <text x="859" y="54" text-anchor="middle" class="text">Variable Part 长度</text>
+    <text x="859" y="76" text-anchor="middle" class="mono">32 bit / int</text>
+
+    <text x="1094" y="30" text-anchor="middle" class="label">Variable Part</text>
+    <text x="1094" y="54" text-anchor="middle" class="text">序列化后的请求或响应内容</text>
+    <text x="1094" y="76" text-anchor="middle" class="mono">N Bytes</text>
+
+    <text x="0" y="-12" class="mono">byte 0</text>
+    <text x="150" y="-12" text-anchor="middle" class="mono">2</text>
+    <text x="242" y="-12" text-anchor="middle" class="mono">3</text>
+    <text x="334" y="-12" text-anchor="middle" class="mono">4</text>
+    <text x="754" y="-12" text-anchor="middle" class="mono">12</text>
+    <text x="964" y="-12" text-anchor="middle" class="mono">16</text>
+    <text x="1224" y="-12" text-anchor="end" class="mono">16 + N</text>
+  </g>
+
+  <text x="70" y="340" class="section">2. Header 字段细节</text>
+
+  <g transform="translate(70 365)">
+    <rect x="0" y="0" width="390" height="176" class="card"/>
+    <text x="22" y="32" class="label">Magic: 16 bit</text>
+    <text x="22" y="60" class="text">Magic High + Magic Low</text>
+    <text x="22" y="86" class="text">固定值：0xdabb</text>
+    <text x="22" y="112" class="small">作用：快速识别 Dubbo 协议报文。</text>
+    <line x1="22" y1="132" x2="360" y2="132" class="line"/>
+    <text x="22" y="156" class="small">请求和响应共用同一 Header 布局。</text>
+  </g>
+
+  <g transform="translate(500 365)">
+    <rect x="0" y="0" width="390" height="176" class="card"/>
+    <text x="22" y="32" class="label">Request ID: 64 bit</text>
+    <text x="22" y="60" class="text">类型：long</text>
+    <text x="22" y="86" class="text">作用：标识一次唯一请求。</text>
+    <text x="22" y="112" class="small">客户端异步并发调用时，可用它匹配响应。</text>
+    <line x1="22" y1="132" x2="360" y2="132" class="line"/>
+    <text x="22" y="156" class="small">占用 byte 4-11。</text>
+  </g>
+
+  <g transform="translate(930 365)">
+    <rect x="0" y="0" width="390" height="176" class="card"/>
+    <text x="22" y="32" class="label">Data Length: 32 bit</text>
+    <text x="22" y="60" class="text">类型：int</text>
+    <text x="22" y="86" class="text">含义：Variable Part 的字节数。</text>
+    <text x="22" y="112" class="small">解码器先读 16 字节 Header，再按该长度读取 Body。</text>
+    <line x1="22" y1="132" x2="360" y2="132" class="line"/>
+    <text x="22" y="156" class="small">占用 byte 12-15。</text>
+  </g>
+
+  <text x="70" y="590" class="section">3. Flag 字节位定义</text>
+  <text x="70" y="614" class="small">Flag 共 8 bit：高 3 bit 表示消息属性，低 5 bit 表示序列化类型。</text>
+
+  <g transform="translate(70 638)">
+    <rect x="0" y="0" width="145" height="72" class="bytebox"/>
+    <rect x="155" y="0" width="145" height="72" class="bytebox"/>
+    <rect x="310" y="0" width="145" height="72" class="bytebox"/>
+    <rect x="465" y="0" width="260" height="72" class="bytebox"/>
+    <text x="72.5" y="25" text-anchor="middle" class="label">Req/Res</text>
+    <text x="72.5" y="47" text-anchor="middle" class="small">请求 1；响应 0</text>
+    <text x="72.5" y="63" text-anchor="middle" class="mono">1 bit</text>
+    <text x="227.5" y="25" text-anchor="middle" class="label">2 Way</text>
+    <text x="227.5" y="47" text-anchor="middle" class="small">是否需要返回值</text>
+    <text x="227.5" y="63" text-anchor="middle" class="mono">1 bit</text>
+    <text x="382.5" y="25" text-anchor="middle" class="label">Event</text>
+    <text x="382.5" y="47" text-anchor="middle" class="small">心跳等事件消息</text>
+    <text x="382.5" y="63" text-anchor="middle" class="mono">1 bit</text>
+    <text x="595" y="25" text-anchor="middle" class="label">Serialization ID</text>
+    <text x="595" y="47" text-anchor="middle" class="small">序列化类型，例如 fastjson = 6</text>
+    <text x="595" y="63" text-anchor="middle" class="mono">5 bit</text>
+  </g>
+
+  <g transform="translate(835 590)">
+    <rect x="0" y="0" width="485" height="158" class="card"/>
+    <text x="22" y="32" class="label">Status: 8 bit，仅响应包有效</text>
+    <text x="22" y="60" class="small">20 OK；30 CLIENT_TIMEOUT；31 SERVER_TIMEOUT；40 BAD_REQUEST</text>
+    <text x="22" y="84" class="small">50 BAD_RESPONSE；60 SERVICE_NOT_FOUND；70 SERVICE_ERROR</text>
+    <text x="22" y="108" class="small">80 SERVER_ERROR；90 CLIENT_ERROR</text>
+    <text x="22" y="132" class="small">100 SERVER_THREADPOOL_EXHAUSTED_ERROR</text>
+  </g>
+
+  <text x="70" y="780" class="section">4. Variable Part 字段顺序</text>
+  <text x="70" y="804" class="small">每一部分都由 Header 中 Serialization ID 指定的序列化方式编码；使用 JSON 序列化时，每个 part 后额外增加换行符。</text>
+
+  <g transform="translate(70 830)">
+    <rect x="0" y="0" width="600" height="128" class="card"/>
+    <text x="22" y="32" class="label">请求包 Body：Req/Res = 1</text>
+    <rect x="22" y="52" width="118" height="34" class="requestBody"/>
+    <rect x="148" y="52" width="118" height="34" class="requestBody"/>
+    <rect x="274" y="52" width="118" height="34" class="requestBody"/>
+    <rect x="400" y="52" width="118" height="34" class="requestBody"/>
+    <rect x="22" y="92" width="160" height="34" class="requestBody"/>
+    <rect x="190" y="92" width="150" height="34" class="requestBody"/>
+    <rect x="348" y="92" width="150" height="34" class="requestBody"/>
+    <text x="81" y="74" text-anchor="middle" class="small">Dubbo version</text>
+    <text x="207" y="74" text-anchor="middle" class="small">Service name</text>
+    <text x="333" y="74" text-anchor="middle" class="small">Service version</text>
+    <text x="459" y="74" text-anchor="middle" class="small">Method name</text>
+    <text x="102" y="114" text-anchor="middle" class="small">Parameter types</text>
+    <text x="265" y="114" text-anchor="middle" class="small">Arguments</text>
+    <text x="423" y="114" text-anchor="middle" class="small">Attachments</text>
+  </g>
+
+  <g transform="translate(720 830)">
+    <rect x="0" y="0" width="600" height="128" class="card"/>
+    <text x="22" y="32" class="label">响应包 Body：Req/Res = 0</text>
+    <rect x="22" y="54" width="190" height="42" class="responseBody"/>
+    <rect x="232" y="54" width="210" height="42" class="responseBody"/>
+    <rect x="462" y="54" width="110" height="42" class="responseBody"/>
+    <text x="117" y="73" text-anchor="middle" class="small">返回值类型 byte</text>
+    <text x="117" y="90" text-anchor="middle" class="mono">0 异常 / 1 正常 / 2 空值</text>
+    <text x="337" y="80" text-anchor="middle" class="small">返回值 bytes</text>
+    <text x="517" y="80" text-anchor="middle" class="small">或异常 bytes</text>
+  </g>
+
+  <g transform="translate(70 972)">
+    <rect x="0" y="0" width="1250" height="42" class="note"/>
+    <text x="20" y="26" class="small">备注：Dubbo 协议把服务名、方法名、参数签名等资源定位信息放在 Variable Part 中，因此必须结合序列化方式才能解析完整调用语义。</text>
+  </g>
+</svg>
