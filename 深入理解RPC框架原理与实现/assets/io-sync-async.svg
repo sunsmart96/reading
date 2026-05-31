@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="520" viewBox="0 0 1180 520" role="img" aria-labelledby="title desc">
+  <title id="title">I/O 同步与异步示意图</title>
+  <desc id="desc">左侧展示同步 I/O 中用户进程需要关注数据准备和复制完成；右侧展示异步 I/O 中内核完成数据复制后再通知用户进程。</desc>
+  <defs>
+    <marker id="arrow-purple" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#7c3aed"/>
+    </marker>
+    <marker id="arrow-teal" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#0f766e"/>
+    </marker>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0f172a" flood-opacity="0.12"/>
+    </filter>
+    <style>
+      .title { font: 700 24px "Microsoft YaHei", "PingFang SC", Arial, sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 15px "Microsoft YaHei", "PingFang SC", Arial, sans-serif; fill: #475569; }
+      .label { font: 600 17px "Microsoft YaHei", "PingFang SC", Arial, sans-serif; fill: #0f172a; }
+      .text { font: 400 15px "Microsoft YaHei", "PingFang SC", Arial, sans-serif; fill: #1e293b; }
+      .small { font: 400 13px "Microsoft YaHei", "PingFang SC", Arial, sans-serif; fill: #64748b; }
+      .panel { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 1.5; rx: 16; }
+      .box { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.5; rx: 10; filter: url(#shadow); }
+      .sync { fill: #f5f3ff; stroke: #a78bfa; }
+      .async { fill: #f0fdfa; stroke: #5eead4; }
+      .work { fill: #f0fdf4; stroke: #86efac; }
+      .arrow-purple { stroke: #7c3aed; stroke-width: 2.5; fill: none; marker-end: url(#arrow-purple); }
+      .arrow-teal { stroke: #0f766e; stroke-width: 2.5; fill: none; marker-end: url(#arrow-teal); }
+      .dash { stroke-dasharray: 7 6; }
+    </style>
+  </defs>
+
+  <rect width="1180" height="520" fill="#ffffff"/>
+  <text x="590" y="42" text-anchor="middle" class="title">I/O 同步与异步</text>
+  <text x="590" y="68" text-anchor="middle" class="subtitle">区别在于数据准备和复制完成这件事由谁负责推进，以及完成后如何通知</text>
+
+  <rect x="40" y="100" width="520" height="370" class="panel"/>
+  <text x="300" y="135" text-anchor="middle" class="label">同步 I/O</text>
+  <text x="300" y="158" text-anchor="middle" class="small">用户进程需要等待或轮询，直到数据复制完成</text>
+
+  <rect x="90" y="205" width="145" height="72" class="box"/>
+  <text x="162.5" y="234" text-anchor="middle" class="text">用户进程</text>
+  <text x="162.5" y="256" text-anchor="middle" class="small">发起 I/O</text>
+
+  <rect x="305" y="205" width="145" height="72" class="box sync"/>
+  <text x="377.5" y="234" text-anchor="middle" class="text">内核准备数据</text>
+  <text x="377.5" y="256" text-anchor="middle" class="small">等待设备返回</text>
+
+  <rect x="90" y="340" width="145" height="72" class="box sync"/>
+  <text x="162.5" y="369" text-anchor="middle" class="text">用户进程参与</text>
+  <text x="162.5" y="391" text-anchor="middle" class="small">等待或轮询</text>
+
+  <rect x="305" y="340" width="145" height="72" class="box"/>
+  <text x="377.5" y="369" text-anchor="middle" class="text">复制到用户空间</text>
+  <text x="377.5" y="391" text-anchor="middle" class="small">I/O 完成</text>
+
+  <path d="M235 241 H295" class="arrow-purple"/>
+  <path d="M377.5 277 V326" class="arrow-purple"/>
+  <path d="M305 376 H245" class="arrow-purple"/>
+  <path d="M162.5 340 V291" class="arrow-purple dash"/>
+  <text x="265" y="225" text-anchor="middle" class="small">请求</text>
+  <text x="270" y="360" text-anchor="middle" class="small">完成后返回</text>
+
+  <rect x="620" y="100" width="520" height="370" class="panel"/>
+  <text x="880" y="135" text-anchor="middle" class="label">异步 I/O</text>
+  <text x="880" y="158" text-anchor="middle" class="small">用户进程提交请求后继续执行，内核完成全部 I/O 后再通知</text>
+
+  <rect x="675" y="190" width="150" height="72" class="box"/>
+  <text x="750" y="219" text-anchor="middle" class="text">用户进程</text>
+  <text x="750" y="241" text-anchor="middle" class="small">提交 I/O 请求</text>
+
+  <rect x="910" y="190" width="150" height="72" class="box async"/>
+  <text x="985" y="219" text-anchor="middle" class="text">内核接管</text>
+  <text x="985" y="241" text-anchor="middle" class="small">准备数据</text>
+
+  <rect x="675" y="330" width="150" height="72" class="box work"/>
+  <text x="750" y="359" text-anchor="middle" class="text">继续执行</text>
+  <text x="750" y="381" text-anchor="middle" class="small">无需等待复制</text>
+
+  <rect x="910" y="330" width="150" height="72" class="box async"/>
+  <text x="985" y="359" text-anchor="middle" class="text">内核复制数据</text>
+  <text x="985" y="381" text-anchor="middle" class="small">完成后通知</text>
+
+  <path d="M825 226 H900" class="arrow-teal"/>
+  <path d="M985 262 V316" class="arrow-teal"/>
+  <path d="M910 366 H835" class="arrow-teal dash"/>
+  <path d="M750 262 V316" class="arrow-teal"/>
+  <text x="866" y="210" text-anchor="middle" class="small">请求</text>
+  <text x="750" y="302" text-anchor="middle" class="small">返回执行</text>
+  <text x="870" y="350" text-anchor="middle" class="small">完成通知</text>
+</svg>

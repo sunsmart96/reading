@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="520" viewBox="0 0 1180 520" role="img" aria-labelledby="title desc">
+  <title id="title">I/O 阻塞与非阻塞示意图</title>
+  <desc id="desc">左侧展示阻塞式 I/O 中用户进程等待内核返回数据；右侧展示非阻塞式 I/O 中用户进程可继续执行并轮询结果。</desc>
+  <defs>
+    <marker id="arrow-blue" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#2563eb"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#16a34a"/>
+    </marker>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0f172a" flood-opacity="0.12"/>
+    </filter>
+    <style>
+      .title { font: 700 24px "Microsoft YaHei", "PingFang SC", Arial, sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 15px "Microsoft YaHei", "PingFang SC", Arial, sans-serif; fill: #475569; }
+      .label { font: 600 17px "Microsoft YaHei", "PingFang SC", Arial, sans-serif; fill: #0f172a; }
+      .text { font: 400 15px "Microsoft YaHei", "PingFang SC", Arial, sans-serif; fill: #1e293b; }
+      .small { font: 400 13px "Microsoft YaHei", "PingFang SC", Arial, sans-serif; fill: #64748b; }
+      .panel { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 1.5; rx: 16; }
+      .box { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.5; rx: 10; filter: url(#shadow); }
+      .wait { fill: #eff6ff; stroke: #60a5fa; }
+      .work { fill: #f0fdf4; stroke: #86efac; }
+      .poll { fill: #fff7ed; stroke: #fdba74; }
+      .arrow-blue { stroke: #2563eb; stroke-width: 2.5; fill: none; marker-end: url(#arrow-blue); }
+      .arrow-green { stroke: #16a34a; stroke-width: 2.5; fill: none; marker-end: url(#arrow-green); }
+      .dash { stroke-dasharray: 7 6; }
+    </style>
+  </defs>
+
+  <rect width="1180" height="520" fill="#ffffff"/>
+  <text x="590" y="42" text-anchor="middle" class="title">I/O 阻塞与非阻塞</text>
+  <text x="590" y="68" text-anchor="middle" class="subtitle">区别在于发起 I/O 后，用户进程是否必须等待结果返回</text>
+
+  <rect x="40" y="100" width="520" height="370" class="panel"/>
+  <text x="300" y="135" text-anchor="middle" class="label">阻塞式 I/O</text>
+  <text x="300" y="158" text-anchor="middle" class="small">发起请求后，用户进程进入等待状态</text>
+
+  <rect x="95" y="205" width="150" height="72" class="box"/>
+  <text x="170" y="234" text-anchor="middle" class="text">用户进程</text>
+  <text x="170" y="256" text-anchor="middle" class="small">发起 I/O 请求</text>
+
+  <rect x="330" y="205" width="150" height="72" class="box wait"/>
+  <text x="405" y="234" text-anchor="middle" class="text">内核处理</text>
+  <text x="405" y="256" text-anchor="middle" class="small">准备并返回数据</text>
+
+  <rect x="95" y="340" width="150" height="72" class="box wait"/>
+  <text x="170" y="369" text-anchor="middle" class="text">用户进程等待</text>
+  <text x="170" y="391" text-anchor="middle" class="small">不能执行其他任务</text>
+
+  <rect x="330" y="340" width="150" height="72" class="box"/>
+  <text x="405" y="369" text-anchor="middle" class="text">继续执行</text>
+  <text x="405" y="391" text-anchor="middle" class="small">拿到 I/O 结果</text>
+
+  <path d="M245 241 H320" class="arrow-blue"/>
+  <path d="M405 277 V326" class="arrow-blue"/>
+  <path d="M330 376 H255" class="arrow-blue"/>
+  <path d="M170 277 V326" class="arrow-blue dash"/>
+  <text x="278" y="225" text-anchor="middle" class="small">请求</text>
+  <text x="286" y="360" text-anchor="middle" class="small">结果返回</text>
+
+  <rect x="620" y="100" width="520" height="370" class="panel"/>
+  <text x="880" y="135" text-anchor="middle" class="label">非阻塞式 I/O</text>
+  <text x="880" y="158" text-anchor="middle" class="small">发起请求后，用户进程可继续执行，并稍后轮询结果</text>
+
+  <rect x="675" y="190" width="150" height="72" class="box"/>
+  <text x="750" y="219" text-anchor="middle" class="text">用户进程</text>
+  <text x="750" y="241" text-anchor="middle" class="small">发起 I/O 请求</text>
+
+  <rect x="910" y="190" width="150" height="72" class="box poll"/>
+  <text x="985" y="219" text-anchor="middle" class="text">内核立即返回</text>
+  <text x="985" y="241" text-anchor="middle" class="small">未就绪或已就绪</text>
+
+  <rect x="675" y="330" width="150" height="72" class="box work"/>
+  <text x="750" y="359" text-anchor="middle" class="text">继续执行</text>
+  <text x="750" y="381" text-anchor="middle" class="small">处理其他任务</text>
+
+  <rect x="910" y="330" width="150" height="72" class="box"/>
+  <text x="985" y="359" text-anchor="middle" class="text">读取数据</text>
+  <text x="985" y="381" text-anchor="middle" class="small">I/O 完成</text>
+
+  <path d="M825 226 H900" class="arrow-green"/>
+  <path d="M985 262 V316" class="arrow-green"/>
+  <path d="M910 366 H835" class="arrow-green"/>
+  <path d="M750 330 V277" class="arrow-green dash"/>
+  <path d="M825 366 C865 366 870 226 900 226" class="arrow-green dash"/>
+  <text x="866" y="210" text-anchor="middle" class="small">请求</text>
+  <text x="878" y="350" text-anchor="middle" class="small">轮询</text>
+  <text x="742" y="302" text-anchor="middle" class="small">不等待</text>
+</svg>
