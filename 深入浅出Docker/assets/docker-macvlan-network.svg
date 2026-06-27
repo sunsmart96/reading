@@ -1,0 +1,77 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="680" viewBox="0 0 1120 680" role="img" aria-labelledby="title desc">
+  <title id="title">Docker macvlan network diagram</title>
+  <desc id="desc">A WSL2 host uses eth0 as the parent interface for a Docker macvlan network. Containers get independent IP addresses in the same subnet.</desc>
+  <defs>
+    <marker id="arrow-blue" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#2563eb"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#16a34a"/>
+    </marker>
+    <style>
+      .bg { fill: #f8fafc; }
+      .title { font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif; font-size: 28px; font-weight: 700; fill: #0f172a; }
+      .label { font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif; font-size: 22px; font-weight: 700; fill: #0f172a; }
+      .text { font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif; font-size: 17px; fill: #334155; }
+      .small { font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif; font-size: 15px; fill: #475569; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-size: 17px; fill: #0f172a; font-weight: 700; }
+      .lan { fill: #eef2ff; stroke: #6366f1; stroke-width: 2; rx: 18; }
+      .wsl { fill: #eff6ff; stroke: #60a5fa; stroke-width: 2; rx: 18; }
+      .docker { fill: #f0fdf4; stroke: #4ade80; stroke-width: 2; rx: 18; }
+      .container { fill: #ffffff; stroke: #16a34a; stroke-width: 2; rx: 12; }
+      .hostif { fill: #dbeafe; stroke: #2563eb; stroke-width: 2; rx: 10; }
+      .mac { fill: #dcfce7; stroke: #16a34a; stroke-width: 2; rx: 10; }
+      .note { fill: #fff7ed; stroke: #fb923c; stroke-width: 2; rx: 14; }
+      .warn { fill: #fef2f2; stroke: #f87171; stroke-width: 2; rx: 14; }
+      .line { stroke: #2563eb; stroke-width: 5; fill: none; marker-end: url(#arrow-blue); }
+      .line-green { stroke: #16a34a; stroke-width: 5; fill: none; marker-end: url(#arrow-green); }
+      .dash-red { stroke: #ef4444; stroke-width: 4; stroke-dasharray: 10 8; fill: none; }
+      .bus { stroke: #6366f1; stroke-width: 8; stroke-linecap: round; }
+    </style>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1120" height="680"/>
+  <text class="title" x="40" y="54">Docker macvlan：容器直接拥有同网段独立 IP</text>
+  <text class="text" x="40" y="88">当前 WSL2 示例：eth0 = 172.19.74.234/20，网段 = 172.19.64.0/20，网关 = 172.19.64.1。</text>
+
+  <rect class="lan" x="42" y="130" width="1036" height="130"/>
+  <text class="label" x="70" y="172">二层网络 / WSL2 虚拟网段</text>
+  <line class="bus" x1="360" y1="210" x2="990" y2="210"/>
+  <text class="mono" x="390" y="196">172.19.64.0/20</text>
+  <rect class="hostif" x="72" y="195" width="210" height="46"/>
+  <text class="mono" x="91" y="224">网关 172.19.64.1</text>
+
+  <rect class="wsl" x="70" y="315" width="390" height="250"/>
+  <text class="label" x="110" y="358">WSL2 / Docker 宿主环境</text>
+  <rect class="hostif" x="116" y="394" width="286" height="58"/>
+  <text class="mono" x="146" y="430">eth0 172.19.74.234</text>
+  <text class="small" x="116" y="488">macvlan 的 parent 使用 eth0</text>
+  <text class="mono" x="116" y="520">-o parent=eth0</text>
+
+  <rect class="docker" x="560" y="315" width="490" height="250"/>
+  <text class="label" x="604" y="358">Docker macvlan 网络：macvlan-net</text>
+  <rect class="container" x="600" y="394" width="190" height="96"/>
+  <text class="label" x="638" y="430">web1</text>
+  <text class="mono" x="622" y="465">172.19.74.250</text>
+  <rect class="container" x="825" y="394" width="190" height="96"/>
+  <text class="label" x="862" y="430">alpine</text>
+  <text class="mono" x="848" y="465">172.19.74.251</text>
+  <rect class="mac" x="635" y="512" width="345" height="36"/>
+  <text class="mono" x="662" y="536">--subnet=172.19.64.0/20</text>
+
+  <path class="line" d="M260 394 C320 320, 360 260, 455 215"/>
+  <path class="line-green" d="M730 394 C705 320, 690 260, 690 215"/>
+  <path class="line-green" d="M930 394 C910 320, 900 260, 900 215"/>
+  <text class="small" x="710" y="302">容器像独立主机一样接入同一网段</text>
+
+  <rect class="note" x="70" y="590" width="470" height="64"/>
+  <text class="text" x="96" y="620">不需要端口映射：访问容器自己的 IP，例如</text>
+  <text class="mono" x="96" y="646">curl http://172.19.74.250</text>
+
+  <rect class="warn" x="590" y="590" width="460" height="64"/>
+  <text class="text" x="616" y="620">WSL2 中 macvlan 受虚拟网络限制，</text>
+  <text class="text" x="616" y="646">宿主机或局域网外部机器不一定能直接访问。</text>
+
+  <path class="dash-red" d="M250 565 C390 620, 470 620, 590 620"/>
+  <text class="small" x="368" y="606">默认隔离 / WSL2 限制</text>
+</svg>

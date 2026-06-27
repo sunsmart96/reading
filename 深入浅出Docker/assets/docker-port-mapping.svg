@@ -1,0 +1,68 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="640" viewBox="0 0 1100 640" role="img" aria-labelledby="title desc">
+  <title id="title">Docker port mapping diagram</title>
+  <desc id="desc">External users access a host port, and Docker forwards traffic to the mapped container port.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#2563eb"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#16a34a"/>
+    </marker>
+    <style>
+      .bg { fill: #f8fafc; }
+      .panel { fill: #ffffff; stroke: #cbd5e1; stroke-width: 2; rx: 16; }
+      .host { fill: #eff6ff; stroke: #60a5fa; stroke-width: 2; rx: 16; }
+      .container { fill: #f0fdf4; stroke: #4ade80; stroke-width: 2; rx: 14; }
+      .blocked { fill: #fef2f2; stroke: #f87171; stroke-width: 2; rx: 12; }
+      .label { font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif; font-size: 24px; font-weight: 700; fill: #0f172a; }
+      .text { font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif; font-size: 18px; fill: #334155; }
+      .small { font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif; font-size: 16px; fill: #475569; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-size: 19px; fill: #0f172a; font-weight: 700; }
+      .port { fill: #dbeafe; stroke: #2563eb; stroke-width: 2; rx: 10; }
+      .cport { fill: #dcfce7; stroke: #16a34a; stroke-width: 2; rx: 10; }
+      .arrow { stroke: #2563eb; stroke-width: 5; fill: none; marker-end: url(#arrow); }
+      .arrow2 { stroke: #16a34a; stroke-width: 5; fill: none; marker-end: url(#arrow-green); }
+      .dash { stroke: #ef4444; stroke-width: 4; stroke-dasharray: 10 8; fill: none; }
+    </style>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1100" height="640"/>
+  <text class="label" x="40" y="56">Docker 端口映射：把宿主机端口发布到容器端口</text>
+  <text class="text" x="40" y="90">示例：docker run -p 8080:80 nginx，含义是访问宿主机 8080，会转发到容器内部 80。</text>
+
+  <rect class="panel" x="40" y="145" width="240" height="250"/>
+  <text class="label" x="82" y="195">外部用户</text>
+  <text class="text" x="75" y="235">浏览器 / curl</text>
+  <rect class="port" x="72" y="270" width="176" height="58"/>
+  <text class="mono" x="102" y="306">:8080</text>
+  <text class="small" x="67" y="365">请求 localhost:8080</text>
+
+  <rect class="host" x="380" y="125" width="300" height="310"/>
+  <text class="label" x="448" y="175">宿主机 Host</text>
+  <text class="small" x="424" y="212">Docker 在这里监听发布端口</text>
+  <rect class="port" x="440" y="250" width="180" height="66"/>
+  <text class="mono" x="481" y="290">8080</text>
+  <text class="small" x="446" y="348">左边端口：对外暴露</text>
+  <text class="small" x="435" y="376">ports: "8080:80"</text>
+
+  <rect class="container" x="800" y="125" width="260" height="310"/>
+  <text class="label" x="862" y="175">容器 Container</text>
+  <text class="small" x="838" y="212">应用只需监听容器内部端口</text>
+  <rect class="cport" x="840" y="250" width="180" height="66"/>
+  <text class="mono" x="894" y="290">80</text>
+  <text class="small" x="849" y="348">右边端口：容器内部</text>
+  <text class="small" x="851" y="376">Nginx / Web 服务</text>
+
+  <path class="arrow" d="M280 295 C320 295, 337 295, 380 295"/>
+  <text class="small" x="300" y="268">访问</text>
+  <path class="arrow2" d="M680 295 C725 295, 750 295, 800 295"/>
+  <text class="small" x="704" y="268">Docker 转发</text>
+
+  <rect class="blocked" x="390" y="480" width="660" height="95"/>
+  <text class="text" x="420" y="522">如果没有 -p 或 ports 映射，容器端口 80 仍然只在 Docker 网络内部可见。</text>
+  <text class="text" x="420" y="552">外部访问宿主机端口时，没有入口可以转发到这个容器。</text>
+  <path class="dash" d="M230 520 C305 520, 320 520, 385 520"/>
+  <text class="small" x="72" y="525">未发布端口时：外部请求被挡住</text>
+
+  <text class="small" x="40" y="612">记忆方式：-p 宿主机端口:容器端口，例如 -p 8080:80。</text>
+</svg>
