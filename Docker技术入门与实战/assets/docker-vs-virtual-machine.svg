@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+  <style>text{font-family:"Microsoft YaHei","PingFang SC",sans-serif;fill:#172033}.h{font-size:30px;font-weight:700}.l{font-size:21px;font-weight:600}.s{font-size:17px}.n{font-size:18px;fill:#536079}.b{stroke-width:2}</style>
+  <rect width="1200" height="720" fill="#f7f9fc" rx="20"/><text x="600" y="52" text-anchor="middle" class="h">Docker 容器与虚拟机</text>
+  <rect x="40" y="82" width="540" height="590" fill="#fff" stroke="#ccd5e3" rx="18"/><text x="310" y="124" text-anchor="middle" class="h">Docker 容器</text>
+  <g fill="#e3f2fd" stroke="#64b5f6" class="b"><rect x="70" y="148" width="230" height="98" rx="12"/><rect x="320" y="148" width="230" height="98" rx="12"/></g>
+  <text x="185" y="187" text-anchor="middle" class="l">应用 A</text><text x="185" y="219" text-anchor="middle" class="s">依赖库 / 运行时</text><text x="435" y="187" text-anchor="middle" class="l">应用 B</text><text x="435" y="219" text-anchor="middle" class="s">依赖库 / 运行时</text>
+  <rect x="70" y="267" width="480" height="84" rx="12" fill="#bbdefb" stroke="#42a5f5" class="b"/><text x="310" y="318" text-anchor="middle" class="l">Docker Engine</text>
+  <rect x="70" y="372" width="480" height="84" rx="12" fill="#d7ecff" stroke="#64b5f6" class="b"/><text x="310" y="423" text-anchor="middle" class="l">宿主操作系统（共享内核）</text>
+  <rect x="70" y="477" width="480" height="84" rx="12" fill="#e8edf4" stroke="#9ba8bb" class="b"/><text x="310" y="528" text-anchor="middle" class="l">基础设施 / 硬件</text><text x="310" y="611" text-anchor="middle" class="n">轻量 · 启动快 · 资源利用率高</text>
+  <rect x="620" y="82" width="540" height="590" fill="#fff" stroke="#ccd5e3" rx="18"/><text x="890" y="124" text-anchor="middle" class="h">虚拟机</text>
+  <g fill="#ede7f6" stroke="#9575cd" class="b"><rect x="650" y="148" width="230" height="98" rx="12"/><rect x="900" y="148" width="230" height="98" rx="12"/></g>
+  <text x="765" y="187" text-anchor="middle" class="l">应用 A</text><text x="765" y="219" text-anchor="middle" class="s">依赖库 / 运行时</text><text x="1015" y="187" text-anchor="middle" class="l">应用 B</text><text x="1015" y="219" text-anchor="middle" class="s">依赖库 / 运行时</text>
+  <g fill="#d1c4e9" stroke="#7e57c2" class="b"><rect x="650" y="267" width="230" height="84" rx="12"/><rect x="900" y="267" width="230" height="84" rx="12"/></g><text x="765" y="318" text-anchor="middle" class="l">客户操作系统</text><text x="1015" y="318" text-anchor="middle" class="l">客户操作系统</text>
+  <rect x="650" y="372" width="480" height="84" rx="12" fill="#e1d9f2" stroke="#9575cd" class="b"/><text x="890" y="423" text-anchor="middle" class="l">Hypervisor（虚拟机管理器）</text>
+  <rect x="650" y="477" width="480" height="84" rx="12" fill="#e8edf4" stroke="#9ba8bb" class="b"/><text x="890" y="528" text-anchor="middle" class="l">基础设施 / 硬件</text><text x="890" y="611" text-anchor="middle" class="n">隔离更完整 · 开销更大 · 启动较慢</text>
+</svg>
